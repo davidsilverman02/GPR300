@@ -54,8 +54,8 @@ struct Transform
 	glm::mat4 getModelMatrix()
 	{
 		glm::mat4 posMat = glm::mat4(1);
-		glm::mat4 rotMat = glm::mat4(0);
-		glm::mat4 scaMat = glm::mat4(0);
+		glm::mat4 rotMat = glm::mat4(1);
+		glm::mat4 scaMat = glm::mat4(1);
 		glm::mat4 retMat;
 
 		posMat[3][0] = position.r;
@@ -95,22 +95,22 @@ struct Camera
 
 	glm::vec3 getForward()
 	{
-		return target - position;
+		return glm::normalize(target - position);
 	}
 
 	glm::vec3 getRight()
 	{
-		return glm::cross(getForward(), glm::vec3(0, 1, 0));
+		return glm::normalize(glm::cross(getForward(), glm::vec3(0, 1, 0)));
 	}
 
 	glm::vec3 getUp()
 	{
-		return glm::cross(getRight(), getForward());
+		return glm::normalize(glm::cross(getRight(), getForward()));
 	}
 
 	glm::mat4 getViewMatrix()
 	{
-		glm::mat4 giveBack;
+		glm::mat4 giveBack = glm::mat4(1);
 		glm::mat4 givePos = glm::mat4(1);
 
 		giveBack[0][0] = getRight().r;
@@ -119,9 +119,9 @@ struct Camera
 		giveBack[0][1] = getUp().r;
 		giveBack[1][1] = getUp().g;
 		giveBack[2][1] = getUp().b;
-		giveBack[0][2] = getForward().r;
-		giveBack[1][2] = getForward().g;
-		giveBack[2][2] = getForward().b;
+		giveBack[0][2] = -getForward().r;
+		giveBack[1][2] = -getForward().g;
+		giveBack[2][2] = -getForward().b;
 		giveBack[3][3] = 1;
 
 		givePos[3][0] = -position.r;
@@ -129,6 +129,7 @@ struct Camera
 		givePos[3][2] = -position.b;
 
 		return giveBack * givePos;
+		//return glm::lookAt(position, target, glm::vec3(0, 1, 0));
 	}
 
 	float getAspect()
@@ -146,7 +147,7 @@ struct Camera
 
 	glm::mat4 ortho(float height, float aspectRatio, float nearPlane, float farPlane)
 	{
-		glm::mat4 giveBack;
+		glm::mat4 giveBack = glm::mat4(1);
 
 		//float t = SCREEN_HEIGHT / 2;
 		//float b = -t;
@@ -172,7 +173,7 @@ struct Camera
 
 	glm::mat4 perspective(float fov, float aspectRatio, float nearPlane, float farPlane)
 	{
-		glm::mat4 giveBack;
+		glm::mat4 giveBack = glm::mat4(1);
 
 		float c = tan(fov / 2.0f);
 
@@ -265,7 +266,7 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	cam.position = glm::vec3(9, 0, 0);
+	cam.target = glm::vec3(0);
 
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(bgColor.r,bgColor.g,bgColor.b, 1.0f);
@@ -286,6 +287,8 @@ int main() {
 		cam.fOV = fieldOfView;
 		cam.orthographicSize = orthographicHeight;
 		cam.orthographic = isOrthographic;
+		cam.position = glm::vec3(cos(tempo) * orbitRadius, 0, sin(tempo) * orbitRadius);
+		tempo += deltaTime * orbitSpeed;
 
 		shader.setMat4("_View", cam.getViewMatrix());
 		shader.setMat4("_Projection", cam.getProjectionMatrix());
@@ -343,7 +346,7 @@ int main() {
 
 		//Draw UI
 		ImGui::Begin("Settings");
-		ImGui::SliderFloat("Orbit Radius", &orbitRadius, 1.0f, 10.0f);
+		ImGui::SliderFloat("Orbit Radius", &orbitRadius, 1.0f, 1000.0f);
 		ImGui::SliderFloat("Orbit Speed", &orbitSpeed, 0.0f, 10.0f);
 		ImGui::SliderFloat("Field of View", &fieldOfView, 1.0f, 1000.0f);
 		ImGui::SliderFloat("Orthographic Height", &orthographicHeight, 0.0f, 1000.0f);
@@ -355,10 +358,6 @@ int main() {
 		glfwPollEvents();
 
 		glfwSwapBuffers(window);
-		
-		cam.position = glm::vec3(cos(tempo) * orbitRadius, 0, sin(tempo) * orbitRadius);
-
-		tempo += deltaTime * orbitSpeed;
 	}
 
 	glfwTerminate();
