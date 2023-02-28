@@ -330,9 +330,9 @@ int main() {
 			ImGui::SliderFloat3(("Cone Light Direction" + curnt).c_str(), &syst.cLights[i].position.r, -12, 12);
 			ImGui::SliderFloat(("Cone Light Radius" + curnt).c_str(), &syst.cLights[i].range, 1, 12);
 			ImGui::SliderFloat(("Cone Light Intensity" + curnt).c_str(), &syst.cLights[i].intensity, 0, 1);
-			ImGui::SliderFloat(("Cone Light Intensity" + curnt).c_str(), &syst.cLights[i].fallOff, 0, 1);
-			ImGui::SliderFloat(("Cone Light Intensity" + curnt).c_str(), &syst.cLights[i].minAngle, 0, 30);
-			ImGui::SliderFloat(("Cone Light Intensity" + curnt).c_str(), &syst.cLights[i].maxAngle, 60, 120);
+			ImGui::SliderFloat(("Cone Light Fall Off" + curnt).c_str(), &syst.cLights[i].fallOff, 0, 1);
+			ImGui::SliderFloat(("Cone Light Min Angle" + curnt).c_str(), &syst.cLights[i].minAngle, 0, 30);
+			ImGui::SliderFloat(("Cone Light Max Angle" + curnt).c_str(), &syst.cLights[i].maxAngle, 60, 120);
 		}
 		ImGui::End();
 
