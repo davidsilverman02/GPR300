@@ -94,6 +94,10 @@ bool grey;
 bool inverse;
 bool blur;
 
+bool showDebug;
+glm::vec2 position;
+float scale;
+
 float frequency;
 float amplitude;
 float directs;
@@ -244,7 +248,7 @@ int main() {
 	Shader litShader("shaders/defaultLit.vert", "shaders/defaultLit.frag");
 
 	//Used for post processing
-	Shader postProcessing("shaders/MRT.vert", "shaders/depth.frag");
+	Shader postProcessing("shaders/depth.vert", "shaders/depth.frag");
 
 	//Used to draw light sphere
 	Shader unlitShader("shaders/defaultLit.vert", "shaders/unlit.frag");
@@ -305,7 +309,10 @@ int main() {
 	matter.specularK = 0.5;
 	matter.shininess = 1;
 	minBias = 0.005;
-	maxBias = 0.05;
+	maxBias = 0.015;
+
+	position = glm::vec2(0.8, 0.8);
+	scale = 0.2;
 
 	sandyTexture = createTexture(SAND);
 	brickTexture = createTexture(STONES);
@@ -557,9 +564,15 @@ int main() {
 		postProcessing.setInt("screen", 5);
 		*/
 		
-		//postProcessing.use();
-		//postProcessing.setInt("_ShadowTexture", 3);
-		//quadMesh.draw();
+		if (showDebug)
+		{
+			postProcessing.use();
+			postProcessing.setInt("_ShadowTexture", 3);
+			postProcessing.setVec2("positionAt", position);
+			postProcessing.setFloat("widthAt", scale);
+			postProcessing.setFloat("heightAt", scale);
+			quadMesh.draw();
+		}
 
 		//Draw UI
 		ImGui::Begin("Material Settings");
@@ -634,6 +647,9 @@ int main() {
 		ImGui::SliderFloat("Height", &sToggle.height, 1.0f, 50.0f);
 		ImGui::SliderFloat("Minimum Bias", &minBias, 0.005, 0.05);
 		ImGui::SliderFloat("Maximum Bias", &maxBias, 0.005, 0.05);
+		ImGui::Checkbox("Show Debug Map", &showDebug);
+		ImGui::SliderFloat2("Debug Position", &position.x, -1, 1);
+		ImGui::SliderFloat("Debug Scale", &scale, 0, 1);
 		ImGui::End();
 
 		ImGui::Render();

@@ -152,14 +152,14 @@ float calcShadow(sampler2D shadowMap, vec4 lightSpacePosition, float bias)
     coord = coord * 0.5 + 0.5;
 
     float smDepth;
-    float zDepth = coord.z;
+    float zDepth = coord.z - bias;
     //= texture(shadowMap, coord.xy).r;
     for(int x = -1; x <= 1; ++x)
 {
     for(int y = -1; y <= 1; ++y)
     {
         smDepth = texture(shadowMap, coord.xy + vec2(x, y) * texelOffset).r; 
-        totalShadow += step(smDepth - bias, zDepth);     
+        totalShadow += step(smDepth, zDepth);     
     }    
 }
     totalShadow /= 9.0;
