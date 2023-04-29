@@ -553,12 +553,6 @@ int main() {
 		litShader.setMat4("_Projection", camera.getProjectionMatrix());
 		litShader.setMat4("_View", camera.getViewMatrix());
 		litShader.setMat4("_LightViewProjection", sCamera.getProjectionMatrix() * sCamera.getViewMatrix());
-		litShader.setVec3("material._Color", matter.color);
-		litShader.setFloat("material._AmbientK", matter.ambientK);
-		litShader.setFloat("material._DiffuseK", matter.diffuseK);
-		litShader.setFloat("material._SpecularK", matter.specularK);
-		litShader.setFloat("material._Shininess", matter.shininess);
-		litShader.setFloat("material._normalMapIntensity", matter.normalMapIntensity);
 		litShader.setFloat("minBias", minBias);
 		litShader.setFloat("maxBias", maxBias);
 
@@ -571,12 +565,6 @@ int main() {
 		monoLitShader.setMat4("_Projection", camera.getProjectionMatrix());
 		monoLitShader.setMat4("_View", camera.getViewMatrix());
 		monoLitShader.setMat4("_LightViewProjection", sCamera.getProjectionMatrix() * sCamera.getViewMatrix());
-		//monoLitShader.setVec3("material._Color", matter.color);
-		//monoLitShader.setFloat("material._AmbientK", matter.ambientK);
-		//monoLitShader.setFloat("material._DiffuseK", matter.diffuseK);
-		//monoLitShader.setFloat("material._SpecularK", matter.specularK);
-		//monoLitShader.setFloat("material._Shininess", matter.shininess);
-		//monoLitShader.setFloat("material._normalMapIntensity", matter.normalMapIntensity);
 		monoLitShader.setFloat("minBias", minBias);
 		monoLitShader.setFloat("maxBias", maxBias);
 
