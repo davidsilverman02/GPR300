@@ -57,7 +57,6 @@ namespace ew {
 		Mesh(MeshData* meshData);
 		~Mesh();
 		void draw();
-		void materialUse();
 		void materialDraw(Transform tras, unsigned int col);
 		//static 
 		const char* current;
