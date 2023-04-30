@@ -472,7 +472,7 @@ int main() {
 	mat.push_back(ew::Material(&monoLitShader, glm::vec3(1.0), 0.5f, 0.5f, 0.5f, 1, 1, sandyTexture, normTexture));
 	items.push_back("Stones");
 	mat.push_back(ew::Material(&litShader, glm::vec3(1.0), 0.5f, 0.5f, 0.5f, 1, 1, moss, sandyTexture, normTexture));
-	items.push_back("MossyRocks");
+	items.push_back("MossyStones");
 
 	cubeMesh.matter = mat[0];
 	cubeMesh.current = items[0];
