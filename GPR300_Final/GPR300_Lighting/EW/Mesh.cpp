@@ -48,7 +48,6 @@ namespace ew {
 	void Mesh::materialDraw(Transform tras, unsigned int text)
 	{
 		matter.shader->use();
-
 		matter.shader->setMat4("_Model", tras.getModelMatrix());
 		matter.shader->setVec3("material._Color", matter.color);
 		matter.shader->setFloat("material._AmbientK", matter.ambientK);
@@ -69,18 +68,13 @@ namespace ew {
 		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_2D, matter.normalMap);
 
-		//glActiveTexture(GL_TEXTURE3);
-		//glBindTexture(GL_TEXTURE_2D, text);
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_2D, text);
 
 		matter.shader->setInt("_SandTexture", 0);
 		matter.shader->setInt("_BrickTexture", 1);
 		matter.shader->setInt("_MesoTexture", 2);
-		//matter.shader->setInt("_ShadowTexture", 3);
-
-
-		//matter.shader->setMat4("_Model", tras.getModelMatrix());
-
-		//draw();
+		matter.shader->setInt("_ShadowTexture", 3);
 
 		glBindVertexArray(mVAO);
 		glDrawElements(GL_TRIANGLES, mNumIndices, GL_UNSIGNED_INT, 0);

@@ -463,15 +463,15 @@ int main() {
 	sToggle.height = 10;
 	sToggle.width = 10;
 
-	mat.push_back(ew::Material(&monoLitShader, glm::vec3(1.0), 0.5f, 0.5f, 0.5f, 0, 0, memeTexture, metalNormal));
+	mat.push_back(ew::Material(&monoLitShader, glm::vec3(1.0), 0.5f, 0.5f, 0.5f, 1, 0, memeTexture, metalNormal));
 	items.push_back("Meme");
-	mat.push_back(ew::Material(&monoLitShader, glm::vec3(1.0), 0.5f, 0.5f, 0.5f, 0, 1, moss, mossNormal));
+	mat.push_back(ew::Material(&monoLitShader, glm::vec3(1.0), 0.5f, 0.5f, 0.5f, 1, 1, moss, mossNormal));
 	items.push_back("Moss");
-	mat.push_back(ew::Material(&litShader, glm::vec3(1.0), 0.5f, 0.5f, 0.5f, 0, 1, moss, rocks, mossNormal));
+	mat.push_back(ew::Material(&litShader, glm::vec3(1.0), 0.5f, 0.5f, 0.5f, 1, 1, moss, rocks, mossNormal));
 	items.push_back("MossyRocks");
-	mat.push_back(ew::Material(&monoLitShader, glm::vec3(1.0), 0.5f, 0.5f, 0.5f, 0, 1, sandyTexture, normTexture));
+	mat.push_back(ew::Material(&monoLitShader, glm::vec3(1.0), 0.5f, 0.5f, 0.5f, 1, 1, sandyTexture, normTexture));
 	items.push_back("Stones");
-	mat.push_back(ew::Material(&litShader, glm::vec3(1.0), 0.5f, 0.5f, 0.5f, 0, 1, moss, sandyTexture, normTexture));
+	mat.push_back(ew::Material(&litShader, glm::vec3(1.0), 0.5f, 0.5f, 0.5f, 1, 1, moss, sandyTexture, normTexture));
 	items.push_back("MossyRocks");
 
 	cubeMesh.matter = mat[0];
@@ -550,6 +550,7 @@ int main() {
 
 		//Draw
 		litShader.use();
+		litShader.setVec3("_CameraPos", camera.getPosition());
 		litShader.setMat4("_Projection", camera.getProjectionMatrix());
 		litShader.setMat4("_View", camera.getViewMatrix());
 		litShader.setMat4("_LightViewProjection", sCamera.getProjectionMatrix() * sCamera.getViewMatrix());
@@ -562,6 +563,7 @@ int main() {
 		litShader.setInt("_ShadowTexture", 3);
 
 		monoLitShader.use();
+		monoLitShader.setVec3("_CameraPos", camera.getPosition());
 		monoLitShader.setMat4("_Projection", camera.getProjectionMatrix());
 		monoLitShader.setMat4("_View", camera.getViewMatrix());
 		monoLitShader.setMat4("_LightViewProjection", sCamera.getProjectionMatrix() * sCamera.getViewMatrix());
@@ -622,33 +624,22 @@ int main() {
 
 		
 		//Draw cube
-		//litShader.setMat4("_Model", cubeTransform.getModelMatrix());
-		//cubeMesh.draw();
 		cubeMesh.materialDraw(cubeTransform, text);
 
 		//Draw sphere
-		//litShader.setMat4("_Model", sphereTransform.getModelMatrix());
-		//sphereMesh.draw();
 		sphereMesh.materialDraw(sphereTransform, text);
 
 		//Draw cylinder
-		//litShader.setMat4("_Model", cylinderTransform.getModelMatrix());
-		//cylinderMesh.draw();
 		cylinderMesh.materialDraw(cylinderTransform, text);
 
-		//monoLitShader.use();
-		planeMesh.materialDraw(planeTransform, text);
 		//Draw plane
-		//litShader.setMat4("_Model", planeTransform.getModelMatrix());
-		//planeMesh.draw();
+		planeMesh.materialDraw(planeTransform, text);
 
-		//postProcessing.use();
-		//quadMesh.draw();
+
+
 
 		//Draw light as a small sphere using unlit shader, ironically.
 		unlitShader.use();
-		
-
 		
 
 		for (int i = 0; i < syst.NUM; i++)
