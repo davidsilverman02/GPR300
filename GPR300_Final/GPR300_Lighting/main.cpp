@@ -532,7 +532,7 @@ int main() {
 		glClearColor(bgColor.r, bgColor.g, bgColor.b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glActiveTexture(GL_TEXTURE0);
+		/*glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, sandyTexture);
 
 		glActiveTexture(GL_TEXTURE1);
@@ -542,7 +542,7 @@ int main() {
 		glBindTexture(GL_TEXTURE_2D, normTexture);
 
 		glActiveTexture(GL_TEXTURE3);
-		glBindTexture(GL_TEXTURE_2D, text);
+		glBindTexture(GL_TEXTURE_2D, text);*/
 
 		glCullFace(GL_BACK);
 
@@ -557,10 +557,10 @@ int main() {
 		litShader.setFloat("minBias", minBias);
 		litShader.setFloat("maxBias", maxBias);
 
-		litShader.setInt("_SandTexture", 0);
-		litShader.setInt("_BrickTexture", 1);
-		litShader.setInt("_MesoTexture", 2);
-		litShader.setInt("_ShadowTexture", 3);
+		//litShader.setInt("_SandTexture", 0);
+		//litShader.setInt("_BrickTexture", 1);
+		//litShader.setInt("_MesoTexture", 2);
+		//litShader.setInt("_ShadowTexture", 3);
 
 		monoLitShader.use();
 		monoLitShader.setVec3("_CameraPos", camera.getPosition());
@@ -570,10 +570,10 @@ int main() {
 		monoLitShader.setFloat("minBias", minBias);
 		monoLitShader.setFloat("maxBias", maxBias);
 
-		monoLitShader.setInt("_SandTexture", 0);
-		monoLitShader.setInt("_BrickTexture", 1);
-		monoLitShader.setInt("_MesoTexture", 2);
-		monoLitShader.setInt("_ShadowTexture", 3);
+		//monoLitShader.setInt("_SandTexture", 0);
+		//monoLitShader.setInt("_BrickTexture", 1);
+		//monoLitShader.setInt("_MesoTexture", 2);
+		//monoLitShader.setInt("_ShadowTexture", 3);
 
 		litShader.use();
 
